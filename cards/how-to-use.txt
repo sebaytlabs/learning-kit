@@ -1,0 +1,7 @@
+# One card per line:  question :: answer
+# Make your own file in this folder. Lines starting with # are skipped.
+What key shows the answer? :: Space
+What do 1 and 2 mean? :: 1 = I missed it, 2 = I got it
+When does a card you missed come back? :: Tomorrow (and once more today)
+How far apart do known cards get? :: 1, 2, 4, 8, 16, then 32 days
+Where is your progress saved? :: In ~/.learning-kit/cards/, by question text, so you can edit this file freely
