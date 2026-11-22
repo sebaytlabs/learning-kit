@@ -8,7 +8,7 @@ Small tools for reading a book and still remembering it a month later. They're f
 | **Flashcards** | Spaced review from a plain text file (`question :: answer`). Cards you know come back less often. |
 | **Quiz** | Multiple choice from a JSON deck, with the reason shown after every answer. Drills the ones you missed. |
 | **Speed Reader** | One word at a time in the same spot. Made for light reading. |
-| **Colemak Trainer** | Learn the Colemak keyboard layout on your normal keyboard, with no settings changed. |
+| **Typing** | Learn the Colemak keyboard layout on your normal keyboard, with no settings changed. |
 
 ## Start
 
@@ -22,7 +22,7 @@ cd learning-kit
 python3 learning_kit.py
 ```
 
-That opens a small window with a button for each tool. Each tool also runs on its own, for example `python3 routine.py`.
+That opens one window with every tool in a sidebar on the left. Each page opens on a start screen that says what it's for and how to use it, and nothing starts until you press a button. Press **F1** or **Help** on any page for step-by-step help.
 
 Your data lives in `~/.learning-kit/`: book progress, notes, card progress and quiz history. Set `LEARNING_KIT_HOME` to keep it somewhere else, such as a synced folder.
 
@@ -59,13 +59,15 @@ The speed reader is honest about what it's for. Showing words one at a time feel
 
 ## Make your own decks and cards
 
-**Cards:** a `.txt` file in `cards/`, one card per line:
+Both can be made inside the app: **New card file** and **Add cards** on the Flashcards page, and **New deck** on the Quiz page. Your own files are kept in `~/.learning-kit/my-cards/` and `~/.learning-kit/my-decks/`. The file formats are below if you'd rather write them by hand.
+
+**Cards:** a `.txt` file, one card per line:
 
 ```
 What is spaced review? :: Seeing a card again just before you'd forget it
 ```
 
-**Quiz deck:** a `.json` file in `decks/`:
+**Quiz deck:** a `.json` file:
 
 ```json
 {"title": "My book", "questions": [
