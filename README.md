@@ -52,9 +52,22 @@ Learning Kit is built to be a free, offline alternative to the usual mix of apps
 | **Speed Reader** | One word at a time in the same spot. For light reading. |
 | **Typing** | Learn the Colemak keyboard layout on your normal keyboard, with no settings changed. |
 
+## Download
+
+Free, no account. Get the file for your computer from the [latest release](https://github.com/sebaytlabs/learning-kit/releases/latest):
+
+| Your computer | File | Then |
+|---|---|---|
+| Windows 10 or 11 | `LearningKit-<version>-windows-setup.exe` | Run it. If Windows says *Windows protected your PC*, click **More info → Run anyway** (once). |
+| Mac with Apple chip (M1 and later) | `LearningKit-<version>-mac-ARM64.dmg` | Open it and drag Learning Kit to Applications. The first time, macOS says it can't check the app: open **System Settings → Privacy & Security**, scroll down and click **Open Anyway** (once). |
+| Mac with Intel chip | `LearningKit-<version>-mac-X64.dmg` | Same as above. |
+| Linux | `LearningKit-<version>-x86_64.AppImage` | Make it runnable (right-click → Properties → *Allow executing*, or `chmod +x` it), then double-click it. |
+
+The apps aren't signed with a paid developer certificate yet, which is why Windows and macOS ask once.
+
 ## Start
 
-You need Python 3.9 or newer.
+To run it from source instead, you need Python 3.9 or newer.
 - **Windows and Mac:** the installer from [python.org](https://www.python.org/downloads/) includes everything.
 - **Linux:** also run `sudo apt install python3-tk` (or your distro's equivalent).
 

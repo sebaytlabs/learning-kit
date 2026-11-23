@@ -1,0 +1,10 @@
+{
+  "name": "Learning Kit",
+  "id": "learning-kit",
+  "entry": "learning_kit.py",
+  "comment": "Read a book. Remember it.",
+  "categories": "Education;",
+  "data": ["cards", "decks"],
+  "tests": ["{python} -m unittest discover tests"],
+  "downloads": ["windows", "mac", "linux"]
+}

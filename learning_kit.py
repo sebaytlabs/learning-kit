@@ -21,7 +21,7 @@ import colemak
 import quiz
 import reader
 import routine
-from appkit import BG, DIM, FG, FONT, LINE, PANEL, App, Page, open_path
+from appkit import BG, DIM, FG, FONT, LINE, PANEL, App, Page, handle_cli, open_path
 from common import DATA, HERE, load_json, save_json
 
 ACCENT = "#3b5bdb"
@@ -881,4 +881,5 @@ def main(first="home"):
 
 
 if __name__ == "__main__":
+    handle_cli()
     main(sys.argv[1] if len(sys.argv) > 1 else "home")
