@@ -8,7 +8,6 @@ Good for light reading and for getting through easy material. For hard material 
 comprehension drops when you can't glance back (Rayner et al. 2016). Left is there so you can.
 """
 import re
-import sys
 
 
 

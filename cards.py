@@ -12,11 +12,7 @@ Boxes: a card moves up a box each time you get it (1, 2, 4, 8, 16, 32 days), and
 """
 import datetime as dt
 import hashlib
-import random
-import sys
-from pathlib import Path
 
-from common import DATA, HERE, load_json, save_json
 
 INTERVALS = [1, 2, 4, 8, 16, 32]
 

@@ -10,7 +10,7 @@ Why each step is there is in the README, with the studies behind it.
 import datetime as dt
 import re
 
-from common import DATA, load_json, save_json
+from common import DATA
 
 BOOKS = DATA / "books.json"
 NOTES = DATA / "books"

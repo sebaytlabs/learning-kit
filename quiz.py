@@ -12,12 +12,10 @@ Deck format (JSON):
      {"q": "Question?", "options": ["right", "wrong", "wrong"], "answer": 0, "why": "Because ... (p. 12)"}]}
 """
 import json
-import random
-import sys
 import time
 from pathlib import Path
 
-from common import DATA, HERE, load_json, save_json
+from common import DATA
 
 HISTORY = DATA / "quiz-history.json"   # {deck title: {"last": {...}, "missed": [question text, ...]}}
 
