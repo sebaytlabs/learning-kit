@@ -177,20 +177,20 @@ These come from the same studio and the same problem: learning a lot with little
 
 ## Sources
 
-Bisra, K., et al. (2018). Inducing self-explanation: a meta-analysis. *Educational Psychology Review*, 30, 703–725.
-Carpenter, S. K., Pan, S. C., & Butler, A. C. (2022). The science of effective learning with spacing and retrieval practice. *Nature Reviews Psychology*, 1, 496–511.
-Dunlosky, J., et al. (2013). Improving students' learning with effective learning techniques. *Psychological Science in the Public Interest*, 14(1), 4–58.
-Hebert, M., et al. (2016). Effects of text structure instruction on expository reading comprehension: a meta-analysis. *Journal of Educational Psychology*, 108(5), 609–629.
-Karpicke, J. D., & Roediger, H. L. (2007). Expanding retrieval practice promotes short-term retention, but equally spaced retrieval enhances long-term retention. *JEP: Learning, Memory, and Cognition*, 33(4), 704–719.
-Lachner, A., et al. (2021). Learning by explaining orally or in written form? *Learning and Instruction*, 74.
-Latimier, A., Peyre, H., & Ramus, F. (2021). A meta-analytic review of the benefit of spacing out retrieval practice episodes on retention. *Educational Psychology Review*, 33, 959–987.
-Pan, S. C., & Carpenter, S. K. (2023). Prequestioning and pretesting effects: a review. *Educational Psychology Review*, 35, 97.
-Pashler, H., et al. (2008). Learning styles: concepts and evidence. *Psychological Science in the Public Interest*, 9(3), 105–119.
-Rawson, K. A., & Dunlosky, J. (2022). Successive relearning: an underexplored but potent technique. *Current Directions in Psychological Science*, 31(4), 362–368.
-Rayner, K., Schotter, E. R., Masson, M. E. J., Potter, M. C., & Treiman, R. (2016). So much to read, so little time: how do we read, and can speed reading help? *Psychological Science in the Public Interest*, 17(1), 4–34.
-Schotter, E. R., Tran, R., & Rayner, K. (2014). Don't believe what you read (only once): comprehension is supported by regressions during reading. *Psychological Science*, 25(6), 1218–1226.
-Vasilev, M. R., Kirkby, J. A., & Angele, B. (2018). Auditory distraction during reading: a Bayesian meta-analysis. *Perspectives on Psychological Science*, 13(5), 567–597.
-Yang, C., et al. (2021). Testing (quizzing) boosts classroom learning: a systematic and meta-analytic review. *Psychological Bulletin*, 147(4), 399–435.
+- Bisra, K., et al. (2018). Inducing self-explanation: a meta-analysis. *Educational Psychology Review*, 30, 703–725.
+- Carpenter, S. K., Pan, S. C., & Butler, A. C. (2022). The science of effective learning with spacing and retrieval practice. *Nature Reviews Psychology*, 1, 496–511.
+- Dunlosky, J., et al. (2013). Improving students' learning with effective learning techniques. *Psychological Science in the Public Interest*, 14(1), 4–58.
+- Hebert, M., et al. (2016). Effects of text structure instruction on expository reading comprehension: a meta-analysis. *Journal of Educational Psychology*, 108(5), 609–629.
+- Karpicke, J. D., & Roediger, H. L. (2007). Expanding retrieval practice promotes short-term retention, but equally spaced retrieval enhances long-term retention. *JEP: Learning, Memory, and Cognition*, 33(4), 704–719.
+- Lachner, A., et al. (2021). Learning by explaining orally or in written form? *Learning and Instruction*, 74.
+- Latimier, A., Peyre, H., & Ramus, F. (2021). A meta-analytic review of the benefit of spacing out retrieval practice episodes on retention. *Educational Psychology Review*, 33, 959–987.
+- Pan, S. C., & Carpenter, S. K. (2023). Prequestioning and pretesting effects: a review. *Educational Psychology Review*, 35, 97.
+- Pashler, H., et al. (2008). Learning styles: concepts and evidence. *Psychological Science in the Public Interest*, 9(3), 105–119.
+- Rawson, K. A., & Dunlosky, J. (2022). Successive relearning: an underexplored but potent technique. *Current Directions in Psychological Science*, 31(4), 362–368.
+- Rayner, K., Schotter, E. R., Masson, M. E. J., Potter, M. C., & Treiman, R. (2016). So much to read, so little time: how do we read, and can speed reading help? *Psychological Science in the Public Interest*, 17(1), 4–34.
+- Schotter, E. R., Tran, R., & Rayner, K. (2014). Don't believe what you read (only once): comprehension is supported by regressions during reading. *Psychological Science*, 25(6), 1218–1226.
+- Vasilev, M. R., Kirkby, J. A., & Angele, B. (2018). Auditory distraction during reading: a Bayesian meta-analysis. *Perspectives on Psychological Science*, 13(5), 567–597.
+- Yang, C., et al. (2021). Testing (quizzing) boosts classroom learning: a systematic and meta-analytic review. *Psychological Bulletin*, 147(4), 399–435.
 
 ## Tests
 
