@@ -65,6 +65,15 @@ class QuizTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             quiz.load_deck(f.name)
 
+    def test_hand_edited_mistakes_are_value_errors(self):
+        for deck in ([], {"questions": {}}, {"questions": ["x"]}, {"questions": [{"options": ["a"], "answer": 0}]},
+                     {"questions": [{"q": "x", "options": ["a"], "answer": "0"}]},
+                     {"questions": [{"q": "x", "options": ["a", "b"], "answer": True}]}):
+            with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+                json.dump(deck, f)
+            with self.assertRaises(ValueError, msg=deck):
+                quiz.load_deck(f.name)
+
     def test_missed_list_updates(self):
         q1 = {"q": "one", "deck": "D"}
         q2 = {"q": "two", "deck": "D"}

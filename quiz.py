@@ -23,10 +23,17 @@ HISTORY = DATA / "quiz-history.json"   # {deck title: {"last": {...}, "missed": 
 def load_deck(path):
     with open(path, encoding="utf-8") as f:
         deck = json.load(f)
+    # A deck is edited by hand: anything malformed is a ValueError naming the question, never a crash.
+    if not isinstance(deck, dict) or not isinstance(deck.get("questions", []), list):
+        raise ValueError(f"{path}: expected {{\"title\": ..., \"questions\": [...]}}")
     qs = deck.get("questions", [])
     for i, q in enumerate(qs):
-        if not (isinstance(q.get("options"), list) and 0 <= q.get("answer", -1) < len(q["options"])):
-            raise ValueError(f"question {i + 1} in {path}: 'answer' must point at one of its 'options'")
+        if not isinstance(q, dict) or not isinstance(q.get("q"), str) or not q["q"].strip():
+            raise ValueError(f"question {i + 1} in {path}: each question needs its text in \"q\"")
+        a = q.get("answer")
+        if not (isinstance(q.get("options"), list) and type(a) is int and 0 <= a < len(q["options"])):
+            raise ValueError(f"question {i + 1} in {path}: 'answer' must be the number of one of its 'options', "
+                             f"counting from 0")
         q.setdefault("why", "")
         q["deck"] = deck.get("title", Path(path).stem)
     return deck.get("title", Path(path).stem), qs
