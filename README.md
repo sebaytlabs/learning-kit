@@ -1,3 +1,5 @@
+<img src="icon.svg" alt="" width="112" align="right">
+
 # Learning Kit
 
 **Read a non-fiction book, and still know what it said a month later.**
