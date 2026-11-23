@@ -134,7 +134,7 @@ The speed reader is honest about what it's for. Showing words one at a time feel
 
 ### About the flashcard schedule
 
-Cards you know come back after 1, 2, 4, 8, 16 and then 32 days. Spacing your reviews out matters a lot. The exact schedule matters much less: experiments find growing gaps and equal gaps about the same over the long run (Karpicke & Roediger 2007; Latimier et al. 2021). We use growing gaps because they keep the daily pile small.
+A card you get right comes back in 2 days, then 4, 8, 16, and every 32 days after that. A card you miss comes back the next day and starts over. Spacing your reviews out matters a lot. The exact schedule matters much less: experiments find growing gaps and equal gaps about the same over the long run (Karpicke & Roediger 2007; Latimier et al. 2021). We use growing gaps because they keep the daily pile small.
 
 ### About Colemak
 
@@ -158,7 +158,7 @@ What is spaced review? :: Seeing a card again just before you'd forget it
 ]}
 ```
 
-`answer` is the position of the right option, counting from 0. Options are shuffled every run.
+`answer` is the position of the right option, counting from 0. Options are shuffled every run. If a deck has a mistake in it, the Quiz page names the question and keeps the rest of your decks working.
 
 ## Screenshots
 

@@ -8,15 +8,12 @@ A card file is plain text, one card per line:   question :: answer
 Lines starting with # are comments. Edit the file any time; progress is kept by question text.
 
 Keys: Space show the answer, 1 missed it, 2 got it.
-Boxes: a card moves up a box each time you get it (1, 2, 4, 8, 16, 32 days), and back to box 1 when you miss it.
+Boxes: a card moves up a box each time you get it (next due in 2, 4, 8, 16, then every 32 days), and back to
+the start when you miss it (due again tomorrow).
 """
 import datetime as dt
 import hashlib
-import random
-import sys
-from pathlib import Path
 
-from common import DATA, HERE, load_json, save_json
 
 INTERVALS = [1, 2, 4, 8, 16, 32]
 
