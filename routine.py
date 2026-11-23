@@ -22,7 +22,7 @@ STAGES = [
         ("Preview", 2, "Cover, back cover and contents only. How is the book built? "
                        "Write a one-sentence guess at what it says. Not worth your time? Stop here, that's a win."),
         ("Skim (optional)", 5, "Turn every page. Look only at headings, pictures and anything in bold."),
-        ("Trigger words", 8, "Open about every 20 pages and check the index. Write 10 to 25 words that keep coming up."),
+        ("Key words", 8, "Open about every 20 pages and check the index. Write 10 to 25 words that keep coming up."),
         ("Questions", 4, "Turn the words into 3 to 5 questions. Why and how questions work best."),
         ("Stop", 1, "Don't look for answers yet. Decide when and where the next sitting happens. Sleep on it."),
     ]),

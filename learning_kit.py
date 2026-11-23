@@ -41,7 +41,7 @@ class Home(Page):
         super().__init__(parent, app)
         self.title("Read a book. Remember it.",
                    "Five small tools that work together. Start with the Book Routine; it uses the others' ideas.")
-        grid = tk.Frame(self.body, bg=BG)
+        grid = self.grid = tk.Frame(self.body, bg=BG)
         grid.pack(fill="both", expand=True)
         tools = [
             ("routine", "Book Routine", "A non-fiction book in three short sittings and two quick checks. "
@@ -96,6 +96,7 @@ class RoutinePage(Page):
                     "Come back when the next sitting is due. This page shows what's due.",
                     "After two short checks (a week and a month later), the book is done."])
         due = routine.due_books(self.books)
+        self.start_btns = []
         self.text("Due today", 14, bold=True)
         if not due:
             self.text("Nothing due today." + ("" if self.books else " Add your first book below."), 11, DIM)
@@ -105,7 +106,9 @@ class RoutinePage(Page):
             mins = sum(m for _, m, _ in stage[2])
             tk.Label(r, text=t, bg=PANEL, fg=FG, font=(FONT, 12, "bold")).pack(side="left", padx=14, pady=10)
             tk.Label(r, text=f"{stage[0]}  ·  about {mins} min", bg=PANEL, fg=DIM, font=(FONT, 11)).pack(side="left")
-            self.button(r, "Start", lambda t=t: self.run(t)).pack(side="right", padx=10, pady=6)
+            b = self.button(r, "Start", lambda t=t: self.run(t))
+            b.pack(side="right", padx=10, pady=6)
+            self.start_btns.append((t, b))
         later = sorted((b["due"], t) for t, b in self.books.items() if "due" in b and t not in due)
         if later:
             self.text("Coming up", 12, bold=True, pady=(12, 2))
@@ -174,7 +177,8 @@ class RoutinePage(Page):
         self.box.pack(fill="both", expand=True)
         self.box.focus_set()
         r = self.row(pady=12)
-        self.button(r, "Stop and go back", self.home, primary=False).pack(side="left")
+        self.button(r, "Stop and go back", self.stop_sitting, primary=False).pack(side="left")
+        self.step_row = r
         last = self.step + 1 == len(steps)
         self.button(r, "Finish this sitting" if last else "Next step  →", self.next_step).pack(side="right")
         self.left = minutes * 60
@@ -188,6 +192,16 @@ class RoutinePage(Page):
             self.bell()
         self.left -= 1
         self.job = self.after(1000, self.tick)
+
+    def stop_sitting(self):
+        """Leave a sitting halfway. What you wrote so far is kept in the book's notes; the sitting stays due."""
+        text = self.box.get("1.0", "end").strip()
+        if text:
+            self.notes.append(f"**{self.stage[2][self.step][0]}**\n\n{text}")
+        if self.notes:
+            routine.append_note(self.book, self.stage[0] + " (stopped early)", "\n\n".join(self.notes))
+            self.app.say("Your answers so far are saved in the book's notes. The sitting is still due.")
+        self.home()
 
     def next_step(self):
         text = self.box.get("1.0", "end").strip()
@@ -243,6 +257,7 @@ class CardsPage(Page):
                     "Press Review. Answer in your head, press Space, then 1 = missed it, 2 = had it.",
                     "Come back tomorrow. Cards you know show up less and less often."])
         today = dt.date.today()
+        self.review_btns = []
         for f in card_files():
             cs = cards.parse(f.read_text(encoding="utf-8"))
             prog = load_json(self.state_file(f), {})
@@ -252,8 +267,9 @@ class CardsPage(Page):
                 side="left", padx=14, pady=10)
             tk.Label(r, text=f"{len(cs)} cards  ·  {due} due today", bg=PANEL, fg=GOOD if due else DIM,
                      font=(FONT, 11)).pack(side="left")
-            self.button(r, "Review", lambda f=f: self.review(f), state="normal" if due else "disabled").pack(
-                side="right", padx=(4, 10), pady=6)
+            b = self.button(r, "Review", lambda f=f: self.review(f), state="normal" if due else "disabled")
+            b.pack(side="right", padx=(4, 10), pady=6)
+            self.review_btns.append((f, b))
             self.button(r, "Add cards", lambda f=f: self.adder(f), primary=False).pack(side="right", padx=4)
             self.button(r, "Edit file", lambda f=f: open_path(f), primary=False).pack(side="right", padx=4)
         self.button(self.row(pady=10), "+  New card file", self.new_file, primary=False).pack(side="left")
@@ -397,6 +413,7 @@ class QuizPage(Page):
                     "Choose an answer, press Check, read why.",
                     "At the end, drill just the ones you missed."])
         hist = load_json(quiz.HISTORY, {})
+        self.start_btns = []
         for f in deck_files():
             try:
                 title, qs = quiz.load_deck(f)
@@ -409,7 +426,9 @@ class QuizPage(Page):
             tk.Label(r, text=title, bg=PANEL, fg=FG, font=(FONT, 12, "bold")).pack(side="left", padx=14, pady=10)
             info = f"{len(qs)} questions" + (f"  ·  last score {last['score']}/{last['total']}" if last else "")
             tk.Label(r, text=info, bg=PANEL, fg=DIM, font=(FONT, 11)).pack(side="left")
-            self.button(r, "Start", lambda t=title, q=qs: self.start(t, q)).pack(side="right", padx=(4, 10), pady=6)
+            b = self.button(r, "Start", lambda t=title, q=qs: self.start(t, q))
+            b.pack(side="right", padx=(4, 10), pady=6)
+            self.start_btns.append(b)
             wrong = [q for q in qs if q["q"] in set(h.get("missed", []))]
             if wrong:
                 self.button(r, f"Missed questions ({len(wrong)})", lambda t=title, q=wrong: self.start(t, q),
@@ -455,8 +474,10 @@ class QuizPage(Page):
         self.text(f"Question {self.i + 1} of {len(self.order)}  ·  score {score}", 11, DIM)
         self.text(q["q"], 17, bold=True, pady=(0, 12))
         self.btns = []
+        self.choices = tk.Frame(self.body, bg=BG)
+        self.choices.pack(fill="x")
         for k, t in enumerate(self.opts):
-            b = tk.Button(self.body, text=f"  {k + 1}.  {t}", anchor="w", justify="left", wraplength=720, bg=PANEL,
+            b = tk.Button(self.choices, text=f"  {k + 1}.  {t}", anchor="w", justify="left", wraplength=720, bg=PANEL,
                           fg=FG, relief="solid", bd=1, font=(FONT, 12), padx=10, pady=8, cursor="hand2",
                           command=lambda k=k: self.pick(k))
             b.pack(fill="x", pady=3)
@@ -559,7 +580,8 @@ class ReaderPage(Page):
         tk.Label(r, text="   Words a minute", bg=BG, fg=FG, font=(FONT, 11)).pack(side="left")
         tk.Scale(r, from_=100, to=900, resolution=25, orient="horizontal", variable=self.wpm, length=220, bg=BG,
                  highlightthickness=0).pack(side="left", padx=6)
-        self.button(r, "Start reading  ▶", self.start).pack(side="right")
+        self.start_b = self.button(r, "Start reading  ▶", self.start)
+        self.start_b.pack(side="right")
 
     def hidden(self):
         if hasattr(self, "canvas") and self.canvas.winfo_exists():
@@ -687,12 +709,15 @@ class TypingPage(Page):
         self.steps(["Pick a lesson. Lesson 1 is the home row only.",
                     "Type the line. The blue letter is next; red means a wrong key.",
                     "Move on once your accuracy stays above 95%."])
+        self.start_btns = []
         for i, (name, letters) in enumerate(colemak.LESSONS):
             r = self.card()
             tk.Label(r, text=f"Lesson {i + 1}: {name}", bg=PANEL, fg=FG, font=(FONT, 12, "bold")).pack(
                 side="left", padx=14, pady=10)
             tk.Label(r, text="letters: " + " ".join(letters), bg=PANEL, fg=DIM, font=("Monospace", 11)).pack(side="left")
-            self.button(r, "Start", lambda i=i: self.start(i)).pack(side="right", padx=10, pady=6)
+            b = self.button(r, "Start", lambda i=i: self.start(i))
+            b.pack(side="right", padx=10, pady=6)
+            self.start_btns.append(b)
 
     def hidden(self):
         self.home()
@@ -758,6 +783,88 @@ class TypingPage(Page):
         self.render()
 
 
+def alive(w):
+    try:
+        return w is not None and bool(w.winfo_exists())
+    except tk.TclError:
+        return False
+
+
+def tutorial(app):
+    pg = app.page
+    first = lambda xs: xs[0][1] if xs and isinstance(xs[0], tuple) else (xs[0] if xs else None)
+    in_sitting = lambda: alive(getattr(pg("routine"), "clock", None))
+    return [
+        {"title": "Welcome to Learning Kit", "target": lambda: app.tour_button,
+         "text": "Learning Kit is for reading a non-fiction book and still remembering it a month later. This "
+                 "tutorial walks through every tool. At each step you do one real thing. It takes about five "
+                 "minutes.",
+         "do": "read this, then click Next. The Tutorial button runs it again any time."},
+        {"title": "Five tools, one idea", "page": "home", "target": lambda: pg("home").grid,
+         "text": "Remembering comes from pulling an idea back out of your head, spaced over days. Reading it again "
+                 "doesn't do it. The Book Routine does that for a whole book. Flashcards and Quiz do it for single "
+                 "facts. The Speed Reader is for light reading. Typing is a bonus: learn a faster keyboard layout.",
+         "do": "click Next."},
+        {"title": "Book Routine: add a book", "page": "routine", "target": lambda: pg("routine").bottom,
+         "text": "Start with a non-fiction book you actually want to learn from. The routine spreads it over five "
+                 "short sessions: day 1, day 2, day 4, then checks after a week and a month.",
+         "do": "type the title of a book you're reading (or any title to practice), then click Add book.",
+         "start": lambda: len(pg("routine").books), "check": lambda n: len(pg("routine").books) > n},
+        {"title": "Start today's sitting", "page": "routine",
+         "target": lambda: (pg("routine").start_btns or [(None, None)])[-1][1],
+         "text": "A new book's first sitting is due today. It takes about 20 minutes, one step at a time.",
+         "do": "click Start next to your book.", "check": lambda _: in_sitting()},
+        {"title": "One step at a time", "target": lambda: pg("routine").box,
+         "text": "The top says what to do and the clock gives you a time limit, so you don't slide into reading the "
+                 "whole book. Type your answers in this box. They go into a notes file for the book.",
+         "do": "type one line, for example why you're reading this book.",
+         "check": lambda _: in_sitting() and pg("routine").box.get("1.0", "end").strip() != ""},
+        {"title": "Next step, or stop for now", "target": lambda: pg("routine").step_row,
+         "text": "'Next step' saves your answer and moves on. When the sitting is done, the next one is booked for "
+                 "you. 'Stop and go back' keeps what you wrote, and the sitting stays due today.",
+         "do": "click Stop and go back for now. You'll do the real sitting after the tutorial.",
+         "check": lambda _: not in_sitting()},
+        {"title": "Flashcards", "page": "cards", "target": lambda: first(pg("cards").review_btns),
+         "text": "For facts you want to keep, like a name, a date or a formula. A card file is plain text, one "
+                 "'question :: answer' per line. Only the cards that are due show up.",
+         "do": "click Review on the first card file.",
+         "check": lambda _: alive(getattr(pg("cards"), "ans", None))},
+        {"title": "Answer in your head first", "target": lambda: pg("cards").r,
+         "text": "Say the answer to yourself, then press Space to see it. Then be honest: 1 if you missed it, 2 if "
+                 "you had it. A card you know comes back in 1, 2, 4, 8, 16, then 32 days. One you miss comes back "
+                 "today and again tomorrow.",
+         "do": "press Space, then 1 or 2.",
+         "start": lambda: getattr(pg("cards"), "count", 0),
+         "check": lambda n: getattr(pg("cards"), "count", 0) > n},
+        {"title": "Quiz", "page": "quiz", "target": lambda: first(pg("quiz").start_btns),
+         "text": "Multiple choice on a book, with the reason after every answer. At the end you can drill just the "
+                 "ones you missed. The deck here quizzes you on why the Book Routine works the way it does.",
+         "do": "click Start.", "check": lambda _: alive(getattr(pg("quiz"), "choices", None))},
+        {"title": "Pick, check, read why", "target": lambda: pg("quiz").choices,
+         "text": "The options are shuffled every time, so you can't learn the positions.",
+         "do": "click an answer (or press its number), then Check answer.",
+         "check": lambda _: getattr(pg("quiz"), "answered", False)},
+        {"title": "Speed Reader", "page": "reader", "target": lambda: pg("reader").start_b,
+         "text": "Words flash one at a time in the same spot. It feels fast, but you can't glance back, and on hard "
+                 "text that costs you understanding. So use it for light reading only. Left arrow jumps back a "
+                 "sentence and Space pauses.",
+         "do": "click Start reading, watch a few words, then press Esc.",
+         "check": lambda _: alive(getattr(pg("reader"), "canvas", None))},
+        {"title": "Typing: Colemak", "page": "typing", "target": lambda: first(pg("typing").start_btns),
+         "text": "Colemak is a keyboard layout that keeps your most used letters under your fingers. You learn it "
+                 "here without changing any settings: each key you press is read as its Colemak letter.",
+         "do": "click Start on lesson 1.", "check": lambda _: alive(getattr(pg("typing"), "line", None))},
+        {"title": "Just type", "target": lambda: pg("typing").line,
+         "text": "Blue is the next letter. Red means a wrong key. The keyboard picture shows where each letter is.",
+         "do": "type five letters.", "check": lambda _: getattr(pg("typing"), "S", {}).get("total", 0) >= 5},
+        {"title": "You're ready", "page": "routine", "target": lambda: app.tour_button,
+         "text": "Your book is waiting under Due today. Do its first sitting now or later today, and come back "
+                 "when the page says the next one is due. That's the whole habit.\n\nF1 on any page shows help "
+                 "for that page.",
+         "do": "click Done."},
+    ]
+
+
 def main(first="home"):
     app = App("Learning Kit", "Read a book. Remember it.", ACCENT, ABOUT, class_name="LearningKit")
     app.add_page("home", "Home", Home)
@@ -769,6 +876,7 @@ def main(first="home"):
     icon = HERE / "icon.png"
     if icon.exists():
         app.iconphoto(True, tk.PhotoImage(file=str(icon)))
+    app.set_tutorial(lambda: tutorial(app), DATA / "settings.json")
     app.run(first)
 
 
